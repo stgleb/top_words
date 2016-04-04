@@ -10,7 +10,7 @@ import (
 const TCP  = "tcp"
 
 
-func Serve(port string, host string,resultChannel chan string) {
+func Serve(port string, host string) {
 	// Listen for incoming connections.
 	l, err := net.Listen(TCP, host + ":" + port)
 	if err != nil {
@@ -27,12 +27,12 @@ func Serve(port string, host string,resultChannel chan string) {
 			os.Exit(1)
 		}
 		// Handle connections in a new goroutine.
-		go handleRequest(conn, resultChannel)
+		go handleRequest(conn)
 	}
 }
 
 // Handles incoming requests.
-func handleRequest(conn net.Conn,resultChannel chan string) {
+func handleRequest(conn net.Conn	) {
 	// Make a buffer to hold incoming data.
 	// Read the incoming connection into the buffer.
 	buffer := make([]byte, 0, 4096)

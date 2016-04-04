@@ -15,8 +15,7 @@ var host = flag.String("host", "localhost", "tcp service host")
 
 func main() {
 	// Run tcp server
-	resultChannel := make(chan string)
-	Serve(port, host, resultChannel)
+	Serve(port, host)
 
 	// Run http server
 	r := mux.NewRouter()
