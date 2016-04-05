@@ -58,7 +58,17 @@ func handleRequest(conn net.Conn	) {
 	words := parseString(buffer)
 
 	for i := 0; i < len(words); i++ {
-		resultChannel <- words[i]
+		shard := wordsMap.GetShard(words[i])
+		shard.RWMutex.Lock()
+		count, ok := wordsMap.Get(words[i])
+
+		if ok != true {
+			count = 0
+		} else {
+			count += 1
+		}
+		wordsMap.Set(words[i], count)
+		shard.RWMutex.Unlock()
 	}
 
 	defer conn.Close()

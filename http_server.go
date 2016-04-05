@@ -17,8 +17,10 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
+
+	words := TopN(N)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write("response")
+	w.Write(words)
 }
 
 
