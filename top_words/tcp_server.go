@@ -55,7 +55,7 @@ func handleRequest(conn net.Conn) {
 		log.Println("Data received ", buffer)
 	}
 
-	words := parseString(buffer)
+	words := ParseString(buffer)
 	log.Println("Words ", words)
 
 	for i := 0; i < len(words); i++ {

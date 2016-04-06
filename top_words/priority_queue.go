@@ -13,6 +13,14 @@ type Item struct {
 	index int // The index of the item in the heap.
 }
 
+func NewItem(key string, value int, index int) *Item {
+	return &Item{
+		value:    key,
+		priority: value,
+		index:    index,
+	}
+}
+
 // A PriorityQueue implements heap.Interface and holds Items.
 type PriorityQueue []*Item
 
