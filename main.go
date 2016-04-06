@@ -2,29 +2,20 @@ package main
 
 import (
 	"flag"
-	"net/http"
-	"log"
-	"t"
-	"github.com/gorilla/mux"
-	"github.com/streamrail/concurrent-map"
+	"sync"
+	"top-words/top_words"
 )
 
-var addr = flag.String("addr", ":9000", "http service address")
-var port = flag.String("port", "8000", "tcp service port")
+var addr = flag.String("addr", ":8000", "http service address")
+var port = flag.String("port", "9000", "tcp service port")
 var host = flag.String("host", "localhost", "tcp service host")
 
 
 func main() {
-	wordsMap := cmap.New()
+	var wg sync.WaitGroup
 	// Run tcp server
-	Serve(port, host, wordsMap)
-
-	// Run http server
-	r := mux.NewRouter()
-	handler := CountMapContext(Get(HomeHandler), wordsMap)
-	r.HandleFunc("/", handler())
-
-	if err := http.ListenAndServe(*addr, nil); err != nil {
-		log.Fatal("ListenAndServe:", err)
-	}
+	wg.Add(2)
+	go top_words.RunTCPServer(*port, *host, &wg)
+	go top_words.RunHTTPServer(*addr, &wg)
+	wg.Wait()
 }

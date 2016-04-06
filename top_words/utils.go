@@ -6,5 +6,5 @@ import "strings"
 func parseString(bytes []byte) []string {
 	s := string(bytes)
 
-	return strings.SplitAfter(s, ' ')
+	return strings.SplitAfter(s, " ")
 }
