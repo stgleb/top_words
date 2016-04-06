@@ -5,10 +5,9 @@ import (
 	"container/heap"
 )
 
+const WORDS_MAP = "words_map"
 
-var wordsMap = cmap.New()
-
-func TopN(n int) []string {
+func TopN(n int, wordsMap *cmap.ConcurrentMap) []string {
 	var words [n]string
 	pq := make(PriorityQueue, wordsMap.Count())
 	i := 0

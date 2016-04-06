@@ -1,11 +1,11 @@
 package top_words
 
-
 import (
-    "github.com/gorilla/mux"
-    "flag"
-    "net/http"
-    "log"
+	"flag"
+	"net/http"
+	"log"
+	"github.com/gorilla/mux"
+	"github.com/streamrail/concurrent-map"
 )
 
 var addr = flag.String("addr", ":9000", "http service address")
@@ -14,14 +14,16 @@ var host = flag.String("host", "localhost", "tcp service host")
 
 
 func main() {
+	wordsMap := cmap.New()
 	// Run tcp server
-	Serve(port, host)
+	Serve(port, host, wordsMap)
 
 	// Run http server
 	r := mux.NewRouter()
-    r.HandleFunc("/", Get(HomeHandler))
+	handler := CountMapContext(Get(HomeHandler), wordsMap)
+	r.HandleFunc("/", handler())
 
-    if err := http.ListenAndServe(*addr, nil); err != nil {
-        log.Fatal("ListenAndServe:", err)
-    }
+	if err := http.ListenAndServe(*addr, nil); err != nil {
+		log.Fatal("ListenAndServe:", err)
+	}
 }

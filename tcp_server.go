@@ -5,12 +5,12 @@ import (
 	"os"
 	"strings"
 	"log"
+	"github.com/streamrail/concurrent-map"
 )
 
-const TCP  = "tcp"
+const TCP = "tcp"
 
-
-func Serve(port string, host string) {
+func Serve(port string, host string, wordsMap *cmap.ConcurrentMap) {
 	// Listen for incoming connections.
 	l, err := net.Listen(TCP, host + ":" + port)
 	if err != nil {
@@ -27,12 +27,12 @@ func Serve(port string, host string) {
 			os.Exit(1)
 		}
 		// Handle connections in a new goroutine.
-		go handleRequest(conn)
+		go handleRequest(conn, wordsMap)
 	}
 }
 
 // Handles incoming requests.
-func handleRequest(conn net.Conn	) {
+func handleRequest(conn net.Conn, wordsMap *cmap.ConcurrentMap) {
 	// Make a buffer to hold incoming data.
 	// Read the incoming connection into the buffer.
 	buffer := make([]byte, 0, 4096)
