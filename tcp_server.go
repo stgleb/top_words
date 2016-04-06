@@ -3,7 +3,6 @@ package top_words
 import (
 	"net"
 	"os"
-	"strings"
 	"log"
 	"github.com/streamrail/concurrent-map"
 )
@@ -72,10 +71,4 @@ func handleRequest(conn net.Conn, wordsMap *cmap.ConcurrentMap) {
 	}
 
 	defer conn.Close()
-}
-
-func parseString(bytes []byte) []string {
-	s := string(bytes)
-
-	return strings.SplitAfter(s, ' ')
 }
