@@ -1,9 +1,9 @@
 package top_words
 
 import (
-	"github.com/stgleb/concurrent-map"
-	"container/heap"
 	"log"
+	"container/heap"
+	"github.com/stgleb/concurrent-map"
 )
 
 var wordsMap = cmap.New()

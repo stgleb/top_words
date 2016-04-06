@@ -3,10 +3,10 @@ package tests
 
 import (
 	"testing"
+	"container/heap"
 	"github.com/stgleb/concurrent-map"
 	"github.com/stretchr/testify/assert"
 	"github.com/top-words/top_words"
-	"container/heap"
 )
 
 
