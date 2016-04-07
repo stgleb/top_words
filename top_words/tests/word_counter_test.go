@@ -6,7 +6,7 @@ import (
 	"container/heap"
 	"github.com/stgleb/concurrent-map"
 	"github.com/stretchr/testify/assert"
-	"github.com/top-words/top_words"
+	"github.com/top_words/top_words"
 )
 
 

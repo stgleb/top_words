@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"sync"
-	"top-words/top_words"
+	"github.com/top_words/top_words"
 )
 
 var addr = flag.String("addr", ":8000", "http service address")

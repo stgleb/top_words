@@ -4,7 +4,7 @@ package tests
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
-	"github.com/top-words/top_words"
+	"github.com/top_words/top_words"
 )
 
 func TestParseString(t *testing.T){
