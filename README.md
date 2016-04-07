@@ -1,5 +1,9 @@
 # Top words web service
 
+## Install Go
+
+Instructions are available on official [site](https://golang.org/doc/install)
+
 
 ## Installation:
 
