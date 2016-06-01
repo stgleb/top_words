@@ -10,7 +10,6 @@ var addr = flag.String("addr", ":8000", "http service address")
 var port = flag.String("port", "9000", "tcp service port")
 var host = flag.String("host", "localhost", "tcp service host")
 
-
 func main() {
 	var wg sync.WaitGroup
 	// Run tcp server

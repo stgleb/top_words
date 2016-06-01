@@ -1,9 +1,9 @@
 package top_words
 
 import (
+	"log"
 	"net"
 	"os"
-	"log"
 	"sync"
 )
 
@@ -11,7 +11,7 @@ const TCP = "tcp"
 
 func RunTCPServer(port string, host string, wg *sync.WaitGroup) {
 	// Listen for incoming connections.
-	l, err := net.Listen(TCP, host + ":" + port)
+	l, err := net.Listen(TCP, host+":"+port)
 	if err != nil {
 		log.Fatal("Error listening:", err.Error())
 	}
@@ -45,7 +45,7 @@ func handleRequest(conn net.Conn) {
 		// Small buffer for reading portions of data.
 		tmp := make([]byte, 1024)
 		reqLen, err := conn.Read(tmp)
-		log.Println("Read ",reqLen, " bytes")
+		log.Println("Read ", reqLen, " bytes")
 
 		if err != nil {
 			log.Println("Error reading:", err.Error())

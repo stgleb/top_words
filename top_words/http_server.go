@@ -1,14 +1,13 @@
 package top_words
 
 import (
+	"bytes"
+	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
-	"bytes"
-	"log"
 	"sync"
-	"github.com/gorilla/mux"
 )
-
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	N := r.URL.Query().Get("N")
@@ -16,7 +15,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if N == "" {
 		N = "0"
 	}
-	log.Println("N parameter ",N)
+	log.Println("N parameter ", N)
 	count, err := strconv.Atoi(N)
 
 	if err != nil {
@@ -29,18 +28,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	var buffer bytes.Buffer
 	log.Println("Words response ", words)
 
-    for i := 0; i < len(words); i++ {
-        buffer.WriteString(words[i])
-    }
+	for i := 0; i < len(words); i++ {
+		buffer.WriteString(words[i])
+	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write(buffer.Bytes())
 }
 
-
-func RunHTTPServer(addr string, wg *sync.WaitGroup){
+func RunHTTPServer(addr string, wg *sync.WaitGroup) {
 	// Run http server
-	log.Println("Start http server on ",addr)
+	log.Println("Start http server on ", addr)
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", HomeHandler).Methods("GET")

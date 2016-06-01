@@ -1,37 +1,36 @@
 package top_words
 
+func split(s string) []string {
+	arraySize := 1
+	for i := 0; i < len(s); i++ {
+		if s[i] == ' ' {
+			arraySize++
+		}
 
-func split(s string) []string{
-    arraySize := 1
-    for i := 0; i < len(s); i++ {
-        if s[i] == ' ' {
-            arraySize++
-        }
-
-		for s[i] == ' '{
+		for s[i] == ' ' {
 			i++
 		}
-    }
-    array := make([]string, arraySize)
+	}
+	array := make([]string, arraySize)
 
-    currentStrInd := 0
-    currentStr := ""
-    for i := 0; i < len(s); i++ {
-        if s[i] == ' ' {
+	currentStrInd := 0
+	currentStr := ""
+	for i := 0; i < len(s); i++ {
+		if s[i] == ' ' {
 			if len(currentStr) > 0 {
-            	array[currentStrInd] = currentStr
+				array[currentStrInd] = currentStr
 				currentStrInd++
-            	currentStr = ""
+				currentStr = ""
 			}
-        } else {
-            currentStr += string(s[i])
-        }
-    }
+		} else {
+			currentStr += string(s[i])
+		}
+	}
 
 	if len(currentStr) > 0 {
-		array[arraySize - 1] = currentStr
+		array[arraySize-1] = currentStr
 	}
-    return array[:];
+	return array[:]
 }
 
 func ParseString(bytes []byte) []string {
