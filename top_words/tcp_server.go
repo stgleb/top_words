@@ -17,7 +17,7 @@ func RunTCPServer(port string, host string, wg *sync.WaitGroup) {
 	}
 	// Close the listener when the application closes.
 	defer l.Close()
-	log.Println("Listening on " + host + ":" + TCP)
+	log.Println("Listening on "  + TCP + "://"+ host + ":" + port)
 	for {
 		// Listen for an incoming connection.
 		conn, err := l.Accept()
