@@ -1,19 +1,18 @@
 package top_words
 
 import (
-	"log"
 	"container/heap"
 	"github.com/stgleb/concurrent-map"
+	"log"
 )
 
 var wordsMap = cmap.New()
-
 
 func TopN(n int) []string {
 	var words = make([]string, n)
 	count := wordsMap.Count()
 
-	if count == 0{
+	if count == 0 {
 		count += count
 	}
 

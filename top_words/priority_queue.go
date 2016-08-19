@@ -1,6 +1,5 @@
 package top_words
 
-
 import (
 	"container/heap"
 )
@@ -59,4 +58,3 @@ func (pq *PriorityQueue) update(item *Item, value string, priority int) {
 	item.priority = priority
 	heap.Fix(pq, item.index)
 }
-
