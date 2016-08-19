@@ -12,6 +12,7 @@ import (
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	N := r.URL.Query().Get("N")
+	log.Printf("Got request from %s", r.RemoteAddr)
 
 	if N == "" {
 		N = "0"

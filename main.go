@@ -6,13 +6,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"sync"
 )
 
 var addr = flag.String("addr", ":8000", "http service address")
 var port = flag.String("port", "9000", "tcp service port")
 var host = flag.String("host", "0.0.0.0", "tcp service host")
-var pprof = flag.Bool("pprof", false, "Enable pprof server")
+var pprofEnabled = flag.Bool("pprof", false, "Enable pprof server")
 var pprofPort = flag.Int("pprofPort", 8080, "Pprof http server port")
 
 func runPprof() {
@@ -30,7 +31,7 @@ func main() {
 	// Run tcp server
 	wg.Add(2)
 	// Start pprof HTTP server.
-	if *pprof {
+	if *pprofEnabled {
 		go runPprof()
 	}
 	go top_words.RunTCPServer(*port, *host, &wg)
