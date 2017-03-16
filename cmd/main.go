@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./top_words"
+	"../top_words"
 	"flag"
 	"fmt"
 	"log"

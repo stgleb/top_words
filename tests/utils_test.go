@@ -1,13 +1,12 @@
 package tests
 
-
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/top_words/top_words"
+	"testing"
 )
 
-func TestParseString(t *testing.T){
+func TestParseString(t *testing.T) {
 	b := []byte("aaa   bb cccc")
 
 	expected := []string{"aaa", "bb", "cccc"}

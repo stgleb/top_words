@@ -1,16 +1,14 @@
 package tests
 
-
 import (
-	"testing"
 	"container/heap"
 	"github.com/stgleb/concurrent-map"
 	"github.com/stretchr/testify/assert"
 	"github.com/top_words/top_words"
+	"testing"
 )
 
-
-func TestTopN(t *testing.T){
+func TestTopN(t *testing.T) {
 	wordsMap := cmap.New()
 	wordsMap.Set("pear", 1)
 	wordsMap.Set("banana", 3)
