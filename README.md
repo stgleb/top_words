@@ -9,19 +9,22 @@ Instructions are available on official [site](https://golang.org/doc/install)
 
 ### Download sources
 
-1.1 git clone https://github.com/stgleb/top_words.git
+1.1 go get github.com/stgleb/top_words.git
 
 ### Install dependencies
 
-1.2 make install
+1.2 `make install`
 
+or use
+
+`godep get`
 
 
 ## Basic usage:
 
 2.1 ###Build server
 
-    make
+    make build
 
 2.2 ### Run server
 

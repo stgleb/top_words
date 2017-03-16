@@ -1,9 +1,9 @@
 package main
 
 import (
-	"../top_words"
 	"flag"
 	"fmt"
+	"github.com/stgleb/top_words"
 	"log"
 	"net/http"
 	_ "net/http/pprof"

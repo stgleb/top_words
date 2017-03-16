@@ -1,4 +1,4 @@
-all:
+build:
 	go build main.go
 install:
 	go get github.com/gorilla/mux

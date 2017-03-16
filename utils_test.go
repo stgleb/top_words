@@ -1,8 +1,7 @@
-package tests
+package top_words
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/top_words/top_words"
 	"testing"
 )
 
@@ -10,7 +9,7 @@ func TestParseString(t *testing.T) {
 	b := []byte("aaa   bb cccc")
 
 	expected := []string{"aaa", "bb", "cccc"}
-	result := top_words.ParseString(b)
+	result := ParseString(b)
 
 	assert.Equal(t, 3, len(result))
 	assert.EqualValues(t, expected, result)

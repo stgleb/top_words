@@ -45,8 +45,16 @@ func RunHTTPServer(addr string, wg *sync.WaitGroup) {
 	router.HandleFunc("/", HomeHandler).Methods("GET")
 	http.Handle("/", router)
 
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Fatal("ListenAndServe:", err)
-	}
+	srv := &http.Server{Addr: ":8081", Handler: router}
+
+	go func() {
+		// service connections
+		if err := srv.ListenAndServe(); err != nil {
+			log.Fatal("ListenAndServe:", err)
+		}
+	}()
+
+	// TODO(stgleb): Add SIGHUP handling for graceful shutdown
+	// srv.Shutdown(context.Background())
 	wg.Done()
 }
