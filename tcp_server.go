@@ -9,26 +9,46 @@ import (
 
 const TCP = "tcp"
 
+var (
+	shutdown chan struct{}
+	logger   *log.Logger
+)
+
+func init() {
+	shutdown = make(chan struct{})
+	logger = log.New(os.Stdout,
+		"INFO: ",
+		log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func ShutDownTCP() {
+	close(shutdown)
+}
+
 func RunTCPServer(port string, host string, wg *sync.WaitGroup) {
 	// Listen for incoming connections.
 	l, err := net.Listen(TCP, host+":"+port)
 	if err != nil {
-		log.Fatal("Error listening:", err.Error())
+		logger.Fatal("Error listening:", err.Error())
 	}
 	// Close the listener when the application closes.
 	defer l.Close()
-	log.Println("Listening on " + TCP + "://" + host + ":" + port)
+	logger.Println("Listening on " + TCP + "://" + host + ":" + port)
 	for {
-		// Listen for an incoming connection.
-		conn, err := l.Accept()
-		log.Println("Accepted connection from", conn.RemoteAddr())
+		select {
+		case <-shutdown:
+			return
+		default:
+			// Listen for an incoming connection.
+			conn, err := l.Accept()
+			logger.Println("Accepted connection from", conn.RemoteAddr())
 
-		if err != nil {
-			log.Println("Error accepting: ", err.Error())
-			os.Exit(1)
+			if err != nil {
+				logger.Fatalf("Error accepting: %v", err)
+			}
+			// Handle connections in a new goroutine.
+			go handleRequest(conn)
 		}
-		// Handle connections in a new goroutine.
-		go handleRequest(conn)
 	}
 	wg.Done()
 }
@@ -38,30 +58,30 @@ func handleRequest(conn net.Conn) {
 	// Make a buffer to hold incoming data.
 	// Read the incoming connection into the buffer.
 	buffer := make([]byte, 0, 4096)
-	log.Println("Handle connection")
+	logger.Println("Handle connection")
 
 	for {
 		// Big buffer for all data.
 		// Small buffer for reading portions of data.
 		tmp := make([]byte, 1024)
 		reqLen, err := conn.Read(tmp)
-		log.Println("Read ", reqLen, " bytes")
+		logger.Println("Read ", reqLen, " bytes")
 
 		if err != nil {
-			log.Println("Error reading:", err.Error())
+			logger.Println("Error reading:", err.Error())
 			break
 		}
 		buffer = append(buffer, tmp[:reqLen]...)
-		log.Println("Data received ", buffer)
+		logger.Println("Data received ", buffer)
 	}
 
 	words := ParseString(buffer)
-	log.Println("Words ", words)
+	logger.Println("Words ", words)
 
 	for i := 0; i < len(words); i++ {
 		shard := wordsMap.GetShard(words[i])
 		shard.Aux.Lock()
-		log.Println("Critical section begin")
+		logger.Println("Critical section begin")
 		count, ok := wordsMap.Get(words[i])
 		cnt := 0
 
@@ -69,13 +89,13 @@ func handleRequest(conn net.Conn) {
 			cnt = count.(int)
 			cnt = cnt + 1
 		}
-		log.Println(cnt)
+		logger.Println(cnt)
 		wordsMap.Set(words[i], cnt)
 
 		shard.Aux.Unlock()
-		log.Println("Critical section end")
+		logger.Println("Critical section end")
 	}
 
-	log.Println("Finish connection handling")
+	logger.Println("Finish connection handling")
 	defer conn.Close()
 }

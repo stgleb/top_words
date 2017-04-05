@@ -3,7 +3,6 @@ package top_words
 import (
 	"container/heap"
 	"github.com/stgleb/concurrent-map"
-	"log"
 )
 
 var wordsMap = cmap.New()
@@ -29,7 +28,7 @@ func TopN(n int) []string {
 		i++
 	}
 	heap.Init(&pq)
-	log.Println(pq)
+	logger.Println(pq)
 
 	for i := 0; i < n && i < len(pq); i++ {
 		item := heap.Pop(&pq).(*Item)
